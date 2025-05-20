@@ -1,0 +1,49 @@
+services:
+  billeasy-backend:
+    build:
+      context: "../Backend/"
+      dockerfile: 'dockerfile'
+    volumes:
+      - ../..:/workspace:cached
+    working_dir: /workspace/practice/Backend
+
+    command: sleep infinity
+    networks:
+      - team-alpha
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - PORT:4000
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+    networks:
+      - team-alpha
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
+    networks:
+      - team-alpha
+
+networks:
+  team-alpha:
+    driver: bridge
