@@ -5,6 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      
+      "type": "node-terminal",
+      "name": "Run Backend: Start with Node",
+      "request": "launch",
+      "command": "node index.js",
+      "cwd": "${workspaceFolder}"
+    
+    },
+    {
       "type": "node-terminal",
       "name": "Run Backend: Start with Nodemon",
       "request": "launch",
