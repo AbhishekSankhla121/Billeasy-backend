@@ -4,6 +4,7 @@ import { ConnectToDataBase } from './config/databaseConnection.js'
 import bookRouter from "./Routes/book.js"
 import userRouter from './Routes/user.js'
 import reviewRouter from './Routes/review.js'
+import ErrorMiddleware from './middlewares/Error.js'
 
 config({
     path:"./config/.env"
@@ -20,3 +21,5 @@ app.use(`${prefix}`,userRouter)
 app.use(`${prefix}`,bookRouter)
 app.use(`${prefix}`,reviewRouter)
 
+
+app.use(ErrorMiddleware);

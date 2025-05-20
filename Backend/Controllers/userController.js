@@ -1,5 +1,7 @@
+import { catchAsyncError } from "../middlewares/catchAsyncError.js";
+import ErrorHandler from "../utils/errorHandler.js";
 
 
-export const signup = (req,res,next)=>{
-    res.send("User Working").status(200)
-}
+export const signup = catchAsyncError(async (req, res, next) => {
+     return next(new ErrorHandler("user", 400))
+});
