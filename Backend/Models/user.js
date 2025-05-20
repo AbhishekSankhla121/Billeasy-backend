@@ -2,11 +2,19 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-}, { timestamps: true });
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    email:    { type: String, required: true, unique: true },
+    password: { 
+      select: false,
+      type: String,
+      required: [true, "Please enter your password"],
+      minLength: [6, "Password must be at least 6 characters"],
+    }
+  },
+  { timestamps: true } 
+);
 
 // Hash password before saving
 userSchema.pre("save", async function (next) {
@@ -21,7 +29,7 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 
-schema.methods.getJWTToken = function () {
+userSchema.methods.getJWTToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: "15d" });
 }
 
