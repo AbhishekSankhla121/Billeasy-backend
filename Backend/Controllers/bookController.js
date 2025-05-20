@@ -94,3 +94,23 @@ export const getBookById = catchAsyncError(async (req, res, next) => {
     },
   });
 });
+
+export const searchBooks = catchAsyncError(async (req, res, next) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ success: false, message: "Search query is required" });
+  }
+
+  const regex = new RegExp(query, "i"); // case-insensitive
+
+  const books = await Book.find({
+    $or: [{ title: regex }, { author: regex }]
+  });
+
+  res.status(200).json({
+    success: true,
+    results: books.length,
+    books,
+  });
+});
