@@ -1,6 +1,9 @@
 import express from 'express'
 import {config} from 'dotenv'
 import { ConnectToDataBase } from './config/databaseConnection.js'
+import bookRouter from "./Routes/book.js"
+import userRouter from './Routes/user.js'
+import reviewRouter from './Routes/review.js'
 
 config({
     path:"./config/.env"
@@ -12,9 +15,8 @@ ConnectToDataBase()
 app.use(express.urlencoded())
 app.use(express.json())
 
-
-app.get("/",(req,res,next)=>{
-    res.send(`service up`)
-})
-
+const prefix = "/api/v1"
+app.use(`${prefix}`,userRouter)
+app.use(`${prefix}`,bookRouter)
+app.use(`${prefix}`,reviewRouter)
 
