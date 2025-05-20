@@ -21,3 +21,15 @@ export const signup = catchAsyncError(async (req, res, next) => {
 
     sendToken(res, user, "Register Successfully!", 201)
 });
+
+export const login = catchAsyncError(async (req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) return next(new ErrorHandler("please enter all filed", 400));
+
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) return next(new ErrorHandler("User not exist!", 401));
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return next(new ErrorHandler("invalid credential in login route", 401));
+    sendToken(res, user, `Welcome Back ${user.username}`, 200);
+});
