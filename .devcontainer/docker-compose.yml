@@ -5,7 +5,7 @@ services:
       dockerfile: 'dockerfile'
     volumes:
       - ../..:/workspace:cached
-    working_dir: /workspace/practice/Backend
+    working_dir: /workspace/Billeasy-backend/Backend
 
     command: sleep infinity
     networks:
