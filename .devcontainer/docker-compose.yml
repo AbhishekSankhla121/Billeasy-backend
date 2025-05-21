@@ -5,7 +5,6 @@ services:
       dockerfile: 'dockerfile'
     volumes:
       - ../..:/workspace:cached
-
     command: sleep infinity
     networks:
       - team-alpha
@@ -14,7 +13,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - PORT:4000
+      - PORT:3000
 
   mongo:
     image: mongo
