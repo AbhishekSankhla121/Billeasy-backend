@@ -1,0 +1,156 @@
+# 📚 Book Review API
+
+A RESTful API built using **Node.js**, **Express.js**, and **MongoDB** that allows authenticated users to manage books and submit reviews.
+
+---
+
+## 🚀 Features
+
+- User authentication with **JWT**
+- Add and retrieve books with **pagination**, **filters**, and **search**
+- Submit **one review per book per user**
+- **Update** or **delete** your own review
+- **Secure cookies** for storing tokens
+- Modular, clean, and scalable structure
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB with Mongoose ODM
+- **Auth**: JWT (JSON Web Tokens)
+- **Security**: HTTP-only, SameSite cookies
+
+---
+
+## 📂 Project Structure
+```
+└── 📁Billeasy-backend
+    └── 📁.devcontainer
+        └── 📁Billeasy-backend
+            └── devcontainer.json
+        └── docker-compose.yml
+     
+    └── 📁Backend
+        └── .gitignore
+        └── 📁.vscode
+            └── launch.json
+            └── settings.json
+        └── App.js
+        └── 📁config
+            └── .env
+            └── databaseConnection.js
+        └── 📁Controllers
+            └── bookController.js
+            └── reviewController.js
+            └── userController.js
+        └── dockerfile
+        └── index.js
+        └── 📁middlewares
+            └── auth.js
+            └── catchAsyncError.js
+            └── Error.js
+        └── 📁Models
+            └── book.js
+            └── review.js
+            └── user.js
+        └── package-lock.json
+        └── package.json
+        └── Readme
+        └── 📁Routes
+            └── book.js
+            └── review.js
+            └── user.js
+        └── 📁utils
+            └── errorHandler.js
+            └── sendtoken.js
+    └── .gitignore
+    └── README.md
+```
+
+
+🧱 Database Schema
+🔸 User
+
+{
+  username: String,
+  email: String (unique),
+  password: String (hashed)
+}
+
+
+🔸 Book
+
+{
+  title: String,
+  author: String,
+  description: String,
+  genre: String,
+  addedBy: ObjectId (User)
+}
+🔸 Review
+
+{
+  book: ObjectId (Book),
+  user: ObjectId (User),
+  rating: Number (1-5),
+  comment: String,
+  createdAt / updatedAt: Date
+}
+
+
+
+🔐 1. Register a New User
+Endpoint:
+POST http://localhost:3000/api/v1/user/signup
+Request Body (JSON):
+
+{
+  "username": "abhishek",
+  "email": "abhishek@example.com",
+  "password": "password123"
+}
+🔐 2. Login a User
+Endpoint:
+POST http://localhost:3000/api/v1/user/login
+Request Body (JSON):
+
+{
+  "email": "abhishek@example.com",
+  "password": "password123"
+}
+💡 After login, token is stored in an HTTP-only cookie (use Postman or browser to keep session).
+
+
+📘 3. Add a Book
+Endpoint (Authenticated):
+
+POST http://localhost:3000/api/v1/books
+Request Body (JSON):
+{
+  "title": "Clean Code",
+  "author": "Robert C. Martin",
+  "description": "A handbook of agile software craftsmanship",
+  "genre": "Programming"
+}
+
+⭐ 4. Submit a Review for a Book
+Endpoint (Authenticated):
+POST http://localhost:3000/api/v1/books/BOOK_ID_HERE/reviews
+Request Body (JSON):
+{
+  "rating": 4,
+  "comment": "Great insights into clean coding practices!"
+}
+Replace BOOK_ID_HERE with the actual book's MongoDB _id.
+
+
+
+✅ Bonus: Query Example (Optional Filters)
+Get books by a specific author (with pagination):
+GET http://localhost:3000/api/v1/books?page=1&limit=5&author=abhishek
+
+
+Search books by title or author (partial match):
+GET http://localhost:3000/api/v1/search?query=clean
