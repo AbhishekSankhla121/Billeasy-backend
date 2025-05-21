@@ -9,3 +9,4 @@ Project setup
 7. now use vs code terminal and run command "npm i"
 8. now click on vs code debugger to run application
 9. for your reference i also attach one video please follow those step
+10. project setup video link: https://drive.google.com/file/d/1rUHfKpmIB3WoVqKvU922ED7259Ba35FR/view?usp=sharing
